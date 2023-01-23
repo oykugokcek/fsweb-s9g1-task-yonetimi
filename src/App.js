@@ -6,6 +6,9 @@ import TaskHookForm from "./TaskHookForm";
 import PeopleForm from "./PeopleForm";
 import { initialTasks, initialTeam } from "./data";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [team, setTeam] = useState(initialTeam);
@@ -19,19 +22,33 @@ function App() {
   }
 
   function handleComplete(id) {
-    setTasks([
-      tasks.map((task) => {
-        if (task.id === id) {
-          return {
-            ...task,
-            status: "yapıldı",
-          };
-        }
-        return task;
-      }),
-    ]);
+    console.log(id, tasks);
+    toast("Görev tamamlandı.");
+    tasks.find((task) => {
+      if (id === task.id) {
+        task.status = "yapıldı";
+        console.log(task.status);
+      }
+      setTasks([...tasks]);
+    });
+
+    //taskların içinden find ya da başka şeyle spasific taskı bul
+    //bulduğun task.status === "yapıldı"
+    //notify => görev tamalandı
+    //state i yeni task listesine göre güncelle
   }
 
+  // setTasks([
+  //   tasks.map((task) => {
+  //     if (task.id === id) {
+  //       return {
+  //         ...task,
+  //         status: "yapıldı",
+  //       };
+  //     }
+  //     return task;
+  //   }),
+  // ]);
   return (
     <div className="app">
       <div className="formColumn">
@@ -68,6 +85,20 @@ function App() {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 }
